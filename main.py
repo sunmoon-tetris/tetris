@@ -16,8 +16,8 @@ def minochoice(r, lst, cnt):
     return mino_choice, cnt
 
 def main():
-    c_0 = (200,200,200)
-    c_1 = (242,242,242)
+    c_0 = (60,60,60)
+    c_1 = (200,200,200)
 
     x = 10
     y = 0
@@ -179,6 +179,9 @@ def main():
                         r = 0
                     else:
                         r += 1
+                if event.key == K_DOWN:
+                    if y < 400 and touch == 0 and h_over == 0:
+                        y += 20
                 if event.key == K_ESCAPE:
                     pygame.quit()
                     sys.exit()
