@@ -16,8 +16,8 @@ def minochoice(r, lst, cnt):
     return mino_choice, cnt
 
 def main():
-    c_0 = (60,60,60)
-    c_1 = (200,200,200)
+    c_0 = (200,200,200)
+    c_1 = (60,60,60)
 
     x = 10
     y = 0
@@ -146,7 +146,7 @@ def main():
         
         if y < 400 and touch == 0 and h_over == 0:
             if count == 1:
-                y += 5
+                y += 20
         else:
             if y == 0:
                 gameover = 1
