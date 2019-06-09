@@ -22,13 +22,28 @@ def loadBoard():
                 img_y = i
                 img_x = 0
                 if i == 15:
-                    img_y == 0
+                    img_y = 0
+                    img_x = size
+                if i > 7:
+                    img_y -= 7
+                    img_x = size
+                if board[x][y] == i:
+                    screen.blit(img, ((x + 4) * size + 10, (20 - y) * size + 10),
+                                (img_x, img_y * size, size, size))
+
+    for x in range(5):
+        for y in range(5):
+            for i in range(16):
+                img_y = i
+                img_x = 0
+                if i == 15:
+                    img_y = 0
                     img_x = size
                 elif i > 7:
                     img_y -= 7
                     img_x = size
-                if board[x][y] == i:
-                    screen.blit(img, ((x - 1) * size, (20 - y) * size),
+                if board_hold[x][y] == i:
+                    screen.blit(img, (x * size + 10, y * size + 10),
                                 (img_x, img_y * size, size, size))
 
 def putMino(mino, action = False):
@@ -74,7 +89,7 @@ def superDrop():
         putMino(block)
 
 def processInput():
-    global mino, fin, con, block
+    global mino, fin, con, block, canHold, hold
     ret = False
     n = [i for i in mino]
     if event.key == K_ESCAPE:
@@ -88,11 +103,28 @@ def processInput():
         n[0] -= 1
     elif event.key == K_RIGHT:
         n[0] += 1
+    elif event.key == K_h and canHold:
+        canHold = False
+        if hold == None:
+            hold = [5, 21, mino[2], 0]
+            n = [5, 21, 0, 0]
+            n[2] = selectMino(minoList)
+        else:
+            hold, n = [5, 21, mino[2], 0], [i for i in hold]
+        for x in range(5):
+            for y in range(5):
+                board_hold[x][y] = 15
+        board_hold[2][2] = hold[2]
+        for i in range(3):
+            dx = minos[hold[2]][1][i][0]
+            dy = minos[hold[2]][1][i][1]
+            board_hold[2 + dx][2 + dy] = hold[2]
+            
     elif event.key == K_RSHIFT:
         if block[1] >= 0:
             n = [i for i in block]
             n[2] -= 7
-    if n[0] != mino[0] or n[1] != mino[1] or n[3] != mino[3]:
+    if n[0] != mino[0] or n[1] != mino[1] or n[2] != mino[2] or n[3] != mino[3]:
         deleteMino(mino)
         if putMino(n):
             mino = [i for i in n]
@@ -101,13 +133,14 @@ def processInput():
     return ret
 
 def minoDown():
-    global mino
+    global mino, canHold
     deleteMino(mino)
     mino[1] -= 1
     if not putMino(mino):
         mino[1] += 1
         putMino(mino)
         deleteLine()
+        canHold = True
         mino = [5, 21, 0, 0]
         mino[2] = selectMino(minoList)
         if not putMino(mino):
@@ -144,11 +177,13 @@ for x in range(len(board)):
     for y in range(len(board[x])):
         if x == 0 or x == 11 or y == 0:
             board[x][y] = 1
+board_hold = [[15 for i in range(5)] for i in range(5)]
 cnt = 0
 time = 0
 pawer = 0
 fin = False
 con = True
+canHold = True
 minos = [
     [1, [[0, 0], [0, 0], [0, 0]]],     ## null
     [2, [[0, -1], [0, 1], [0, 2]]],    ## I mino
@@ -172,12 +207,13 @@ random.shuffle(minoList[0])
 random.shuffle(minoList[1])
 mino = [5, 21, 0, 0]                   ## x, y, type, rotate
 mino[2] = selectMino(minoList)
+block = [i for i in mino]
+hold = None
 pygame.init()
 clock = pygame.time.Clock()
-screen = pygame.display.set_mode((size * 10, size * 20))
+screen = pygame.display.set_mode((size * 40 + 40, size * 20 + 100))
 pygame.display.set_caption("Tetris")
 pygame.display.update()
-block = [i for i in mino]
 
 while not fin:
     if con:
@@ -194,6 +230,7 @@ while not fin:
         if event.type == KEYDOWN:
             if(processInput()):
                 time = -1
+    screen.fill((128, 192, 255))
     superDrop()
     loadBoard()
     pygame.display.update()
