@@ -18,22 +18,18 @@ def selectMino(minoList):
 def loadBoard():
     for x in range(1, 11):
         for y in range(1, 21):
-            if board[x][y] == 0:
-                screen.blit(img, ((x - 1) * size, (20 - y) * size), (0, 0, size, size))
-            if board[x][y] == 1:
-                screen.blit(img, ((x - 1) * size, (20 - y) * size), (0, 4 * size, size, size))
-            if board[x][y] == 2:
-                screen.blit(img, ((x - 1) * size, (20 - y) * size), (0, 6 * size, size, size))
-            if board[x][y] == 3:
-                screen.blit(img, ((x - 1) * size, (20 - y) * size), (0, 5 * size, size, size))
-            if board[x][y] == 4:
-                screen.blit(img, ((x - 1) * size, (20 - y) * size), (0, 3 * size, size, size))
-            if board[x][y] == 5:
-                screen.blit(img, ((x - 1) * size, (20 - y) * size), (0, size, size, size))
-            if board[x][y] == 6:
-                screen.blit(img, ((x - 1) * size, (20 - y) * size), (0, 2 * size, size, size))
-            if board[x][y] == 7:
-                screen.blit(img, ((x - 1) * size, (20 - y) * size), (0, 7 * size, size, size))
+            for i in range(16):
+                img_y = i
+                img_x = 0
+                if i == 15:
+                    img_y == 0
+                    img_x = size
+                elif i > 8:
+                    img_y -= 7
+                    img_x = size
+                if board[x][y] == i:
+                    screen.blit(img, ((x - 1) * size, (20 - y) * size),
+                                (img_x, img_y * size, size, size))
 
 def putMino(mino, action = False):
     if board[mino[0]][mino[1]] != 0:
@@ -63,6 +59,21 @@ def deleteMino(mino):
         for j in range(r):
             dx, dy = dy, -dx
         board[mino[0] + dx][mino[1] + dy] = 0
+
+def superDrop():
+    global block, mino
+    block = [i for i in mino]
+    block[2] += 7
+    for x in range(1, 11):
+        for y in range(1, 21):
+            if board[x][y] > 7:
+                board[x][y] = 0
+    while True:
+        block[1] -= 1
+        if not putMino(block):
+            block[1] += 1
+            putMino(block)
+            break
 
 def processInput():
     global mino, fin, con
@@ -132,17 +143,25 @@ for x in range(len(board)):
         if x == 0 or x == 11 or y == 0:
             board[x][y] = 1
 minos = [
-    [1, [[0, 0], [0, 0], [0, 0]]], ## null
-    [2, [[0, -1], [0, 1], [0, 2]]], ## I mino
-    [4, [[0, -1], [0, 1], [1, 1]]], ## L mino
-    [4, [[0, -1], [0, 1], [-1, 1]]], ## J mino
-    [2, [[0, -1], [1, 0], [1, 1]]], ## S mino
-    [2, [[0, -1], [-1, 0], [-1, 1]]], ## Z mino
-    [1, [[0, 1], [1, 0], [1, 1]]], ## O mino
-    [4, [[0, -1], [1, 0], [-1, 0]]]  ## T mino
+    [1, [[0, 0], [0, 0], [0, 0]]],     ## null
+    [2, [[0, -1], [0, 1], [0, 2]]],    ## I mino
+    [4, [[0, -1], [0, 1], [1, 1]]],    ## L mino
+    [4, [[0, -1], [0, 1], [-1, 1]]],   ## J mino
+    [2, [[0, -1], [1, 0], [1, 1]]],    ## S mino
+    [2, [[0, -1], [-1, 0], [-1, 1]]],  ## Z mino
+    [1, [[0, 1], [1, 0], [1, 1]]],     ## O mino
+    [4, [[0, -1], [1, 0], [-1, 0]]],   ## T mino
+    [2, [[0, -1], [0, 1], [0, 2]]],    ## I mino for superDrop
+    [4, [[0, -1], [0, 1], [1, 1]]],    ## L mino for superDrop
+    [4, [[0, -1], [0, 1], [-1, 1]]],   ## J mino for superDrop
+    [2, [[0, -1], [1, 0], [1, 1]]],    ## S mino for superDrop
+    [2, [[0, -1], [-1, 0], [-1, 1]]],  ## Z mino for superDrop
+    [1, [[0, 1], [1, 0], [1, 1]]],     ## O mino for superDrop
+    [4, [[0, -1], [1, 0], [-1, 0]]]    ## T mino for superDrop
     ]
-mino = [5, 21, 0, 0] # x, y, type, rotate
-minoList = [[1, 2, 3, 4, 5, 6, 7], [1, 2, 3, 4, 5, 6, 7]]
+mino = [5, 21, 0, 0]                   ## x, y, type, rotate
+minoList = [[1, 2, 3, 4, 5, 6, 7],
+            [1, 2, 3, 4, 5, 6, 7]]
 random.shuffle(minoList[0])
 random.shuffle(minoList[1])
 cnt = 0
@@ -174,6 +193,7 @@ while not fin:
         if event.type == KEYDOWN:
             if(processInput()):
                 time = -1
+    superDrop()
     loadBoard()
     pygame.display.update()
 
