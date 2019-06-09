@@ -11,6 +11,23 @@ def selectMino(minoList):
     if cnt == 0:
         minoList[0] = [i for i in minoList[1]]
         random.shuffle(minoList[1])
+    for n in range(4):
+        for x in range(5):
+            for y in range(5):
+                nexts[n][x][y] = 15
+        nxt = cnt + n + 1
+        list_n = 0
+        if nxt > 6:
+            nxt -= 7
+            list_n = 1
+        nexts[n][2][2] = minoList[list_n][nxt]
+        for i in range(3):
+            dx = minos[minoList[list_n][nxt]][1][i][0]
+            dy = minos[minoList[list_n][nxt]][1][i][1]
+            nexts[n][2 + dx][2 + dy] = minoList[list_n][nxt]
+    for j in range(4):
+        for k in range(5):
+            nexts[j][k].reverse()
     mino_choice = minoList[0][cnt]
     cnt += 1
     return mino_choice
@@ -45,6 +62,22 @@ def loadBoard():
                 if board_hold[x][y] == i:
                     screen.blit(img, (x * size + 10, y * size + 10),
                                 (img_x, img_y * size, size, size))
+
+    for n in range(4):
+        for x in range(5):
+            for y in range(5):
+                for i in range(16):
+                    img_y = i
+                    img_x = 0
+                    if i == 15:
+                        img_y = 0
+                        img_x = size
+                    elif i > 7:
+                        img_y -= 7
+                        img_x = size
+                    if nexts[n][x][y] == i:
+                        screen.blit(img, ((x + 15) * size + 10, n * 5 * size + y * size + 10),
+                                    (img_x, img_y * size, size, size))
 
 def putMino(mino, action = False):
     if board[mino[0]][mino[1]] != 0 and board[mino[0]][mino[1]] < 8:
@@ -178,6 +211,7 @@ for x in range(len(board)):
         if x == 0 or x == 11 or y == 0:
             board[x][y] = 1
 board_hold = [[15 for i in range(5)] for i in range(5)]
+nexts = [[[15 for i in range(5)] for i in range(5)] for i in range(4)]
 cnt = 0
 time = 0
 pawer = 0
