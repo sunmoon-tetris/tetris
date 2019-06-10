@@ -4,9 +4,6 @@ from pygame.locals import *
 import cv2
 import random
 
-##class Game:
-##def __init__(self):
-
 def selectMino(minoList):
     global cnt, mino_choice
     if cnt > 6:
