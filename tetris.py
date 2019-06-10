@@ -41,7 +41,7 @@ def loadBoard():
                 if i == 15:
                     img_y = 0
                     img_x = size
-                if i > 7:
+                elif i > 7:
                     img_y -= 7
                     img_x = size
                 if board[x][y] == i:
@@ -80,15 +80,20 @@ def loadBoard():
                                     (img_x, img_y * size2, size2, size2))
 
     for i in range(20):
-        if attack[i] == 15:
-            screen.blit(img3, (100, i * size3 + 90),
-                                (size3, 0 * size3, size3, size3))
+        if len(attack) > i:
+            if attack[i] > 5:
+                screen.blit(img3, (100, (19 - i) * size3 + 90),
+                            (0, 6 * size3, size3, size3))
+            else:
+                screen.blit(img3, (100, (19 - i) * size3 + 90),
+                            (0, 5 * size3, size3, size3))
         else:
-            screen.blit(img3, (100, i * size3 + 90),
-                                (0, 5 * size3, size3, size3))
+            screen.blit(img3, (100, (19 - i) * size3 + 90),
+                        (size3, 0 * size3, size3, size3))
 
 def putMino(mino, action = False):
-    if board[mino[0]][mino[1]] != 0 and board[mino[0]][mino[1]] < 8:
+    if board[mino[0]][mino[1]] != 0 and\
+       board[mino[0]][mino[1]] < 8 or board[mino[0]][mino[1]] == 15:
         return False
     if action:
         board[mino[0]][mino[1]] = mino[2]
@@ -98,7 +103,8 @@ def putMino(mino, action = False):
         r = mino[3] % minos[mino[2]][0]
         for j in range(r):
             dx, dy = dy, -dx
-        if board[mino[0] + dx][mino[1] + dy] != 0 and board[mino[0]][mino[1]] < 8:
+        if board[mino[0] + dx][mino[1] + dy] != 0 and\
+           board[mino[0] + dx][mino[1] + dy] < 8 or board[mino[0] + dx][mino[1] + dy] == 15:
             return False
         if action:
             board[mino[0] + dx][mino[1] + dy] = mino[2]
@@ -175,13 +181,25 @@ def processInput():
     return ret
 
 def minoDown():
-    global mino, canHold
+    global mino, canHold, attack, wall
     deleteMino(mino)
     mino[1] -= 1
+    for i in range(len(attack)): attack[i] -= 1
+    temp = []
+    attack.reverse()
+    for i in attack:
+        if i == 0:
+            wall += 1
+        if i > 0:
+            temp.append(i)
+    attack = [i for i in temp]
+    attack.reverse()
     if not putMino(mino):
         mino[1] += 1
         putMino(mino)
         deleteLine()
+        if wall > 0: makeWall()
+        wall = 0
         canHold = True
         mino = [5, 21, 0, 0]
         mino[2] = selectMino(minoList)
@@ -193,12 +211,13 @@ def gameOver():
     for x in range(1, 11):
         for y in range(1, 21):
             if board[x][y] != 0:
-                board[x][y] = 5
+                board[x][y] = 15
     con = False
 
 def deleteLine():
-    global pawer
+    global pawer, btb, attack, wall
     y = 1
+    pawer = 0
     while y < 21:
         flag = True
         for x in range(1, 11):
@@ -211,21 +230,54 @@ def deleteLine():
             pawer += 1
             y -= 1
         y += 1
+    if pawer == 4:
+        if btb:
+            pawer += 1
+        btb = True
+    else:
+        btb = False
+    flag = True
+    for i in range(1, 11):
+        if board[i][1] != 0:
+            flag = False
+            break
+    if flag:
+        pawer = 10
+    pawer, wall = pawer - wall, wall - pawer
+    if pawer < 0: pawer = 0
+    if wall < 0: wall = 0
+    for i in range(pawer): attack.append(15)
 
-board = [[0 for i in range(28)] for i in range(12)]
+def makeWall():
+    global pawer, btb, attack, wall
+    y = 20
+    n = random.randint(1, 10)
+    while y > 0:
+        for x in range(1, 11):
+            board[x][y + wall] = board[x][y]
+            if y <= wall:
+                if x == n:
+                    board[x][y] = 0
+                else:
+                    board[x][y] = 15                        
+        y -= 1
+
+board = [[0 for i in range(40)] for i in range(12)]
 for x in range(len(board)):
     for y in range(len(board[x])):
         if x == 0 or x == 11 or y == 0:
             board[x][y] = 1
 board_hold = [[15 for i in range(5)] for i in range(5)]
 nexts = [[[15 for i in range(5)] for i in range(5)] for i in range(5)]
-attack = [15 for i in range(20)]
+attack = []
 cnt = 0
 time = 0
 pawer = 0
+wall = 0
 fin = False
 con = True
 canHold = True
+btb = False
 minos = [
     [1, [[0, 0], [0, 0], [0, 0]]],     ## null
     [2, [[0, -1], [0, 1], [0, 2]]],    ## I mino
