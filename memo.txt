@@ -1,35 +1,30 @@
-____	ƒQ[ƒW”	‚a‚s‚a•t
-ƒVƒ“ƒOƒ‹	@@]@	@@]@
-ƒ_ƒuƒ‹@	@@‚P@	@@]@
-ƒgƒŠƒvƒ‹	@@‚Q@	@@]@
-ƒeƒgƒŠƒX	@@‚S@	@@‚T@
-____	ƒQ[ƒW”	‚a‚s‚a•t
-‚s‚r‚l@	@@]@	@@‚P@
-‚s‚r‚r@	@@‚Q@	@@‚R@
-‚s‚r‚c@	@@‚S@	@@‚T@
-‚s‚r‚s@	@@‚S@	@@‚T@
-ƒpƒtƒF@	@‚P‚O@	@@]@
-____	@—ÝŒv‰Î—Í({‰Á—Í)@
-‚O‚q‚d‚m	@@@‚Oi‚Oj
-‚P‚q‚d‚m	@@@‚Oi‚Oj
-‚Q‚q‚d‚m	@@@‚Pi‚Pj
-‚R‚q‚d‚m	@@@‚Qi‚Pj
-‚S‚q‚d‚m	@@@‚Si‚Qj
-‚T‚q‚d‚m	@@@‚Ui‚Qj
-‚U‚q‚d‚m	@@@‚Xi‚Rj
-‚V‚q‚d‚m	@@‚P‚Qi‚Rj
-‚W‚q‚d‚m	@@‚P‚Ui‚Sj
-‚X‚q‚d‚m	@@‚Q‚Oi‚Sj
-‚P‚O‚q‚d	@@‚Q‚Si‚Sj
-‚P‚P‚q‚d	@@‚Q‚Xi‚Tj
-‚P‚Q‚q‚d	@@‚R‚Si‚Tj
-‚P‚R‚q‚d	@@‚R‚Xi‚Tj
-‚P‚S‚q‚d	@@‚S‚Si‚Tj
+ï¼¼ï¼¼ï¼¼ï¼¼	ã‚²ãƒ¼ã‚¸æ•°	ï¼¢ï¼´ï¼¢ä»˜
+ã‚·ãƒ³ã‚°ãƒ«	ã€€ã€€â€ã€€	ã€€ã€€â€ã€€
+ãƒ€ãƒ–ãƒ«ã€€	ã€€ã€€ï¼‘ã€€	ã€€ã€€â€ã€€
+ãƒˆãƒªãƒ—ãƒ«	ã€€ã€€ï¼’ã€€	ã€€ã€€â€ã€€
+ãƒ†ãƒˆãƒªã‚¹	ã€€ã€€ï¼”ã€€	ã€€ã€€ï¼•ã€€
+ãƒ‘ãƒ•ã‚§ã€€	ã€€ï¼‘ï¼ã€€	ã€€ã€€â€ã€€
+ï¼¼ï¼¼ï¼¼ï¼¼	ã€€ç«åŠ›(ï¼‹åŠ åŠ›)ã€€
+ï¼chain	ã€€ ï¼
+ï¼‘chain	ã€€ ï¼
+ï¼’chain	ã€€ ï¼‘
+ï¼“chain	ã€€ ï¼‘
+ï¼”chain	ã€€ ï¼’
+ï¼•chain	ã€€ ï¼’
+ï¼–chain	ã€€ ï¼“
+ï¼—chain     ï¼“
+ï¼˜chain     ï¼”
+ï¼™chain     ï¼”
+ï¼‘ï¼chain   ï¼”
+ï¼‘ï¼‘chain   ï¼•
+ï¼‘ï¼’chain   ï¼•
+ï¼‘ï¼“chain   ï¼•
+ï¼‘ï¼”chain   ï¼•
 
-I	…F
-O	‰©F
-S	‰©—Î
-Z	Ô
-J	Â
-L	ƒIƒŒƒ“ƒW
-T	Ž‡
+I	æ°´è‰²
+O	é»„è‰²
+S	é»„ç·‘
+Z	èµ¤
+J	é’
+L	ã‚ªãƒ¬ãƒ³ã‚¸
+T	ç´«
