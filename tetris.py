@@ -128,15 +128,15 @@ def processInput():
     if event.key == K_ESCAPE:
         fin = True
         con = False
-    elif event.key == K_UP:
+    elif event.key == K_w:
         n[3] += 1
-    elif event.key == K_DOWN:
+    elif event.key == K_s:
         ret = True
-    elif event.key == K_LEFT:
+    elif event.key == K_a:
         n[0] -= 1
-    elif event.key == K_RIGHT:
+    elif event.key == K_d:
         n[0] += 1
-    elif event.key == K_h and canHold:
+    elif event.key == K_f and canHold:
         canHold = False
         if hold == None:
             hold = [5, 21, mino[2], 0]
@@ -152,8 +152,9 @@ def processInput():
             dx = minos[hold[2]][1][i][0]
             dy = minos[hold[2]][1][i][1]
             board_hold[2 + dx][2 + dy] = hold[2]
-            
-    elif event.key == K_RSHIFT:
+        for j in range(5):
+            board_hold[j].reverse()
+    elif event.key == K_q:
         if block[1] >= 0:
             n = [i for i in block]
             n[2] -= 7
