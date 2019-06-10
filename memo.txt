@@ -5,13 +5,13 @@
 テトリス	　　４　	　　５　
 パフェ　	　１０　	　　‐　
 ＼＼＼＼	　火力(＋加力)　
-０chain	　 ０
-１chain	　 ０
-２chain	　 １
-３chain	　 １
-４chain	　 ２
-５chain	　 ２
-６chain	　 ３
+０chain     ０
+１chain     ０
+２chain     １
+３chain     １
+４chain     ２
+５chain     ２
+６chain     ３
 ７chain     ３
 ８chain     ４
 ９chain     ４
