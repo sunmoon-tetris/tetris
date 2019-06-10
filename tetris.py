@@ -4,6 +4,9 @@ from pygame.locals import *
 import cv2
 import random
 
+##class Game:
+##def __init__(self):
+
 def selectMino(minoList):
     global cnt, mino_choice
     if cnt > 6:
@@ -11,7 +14,7 @@ def selectMino(minoList):
     if cnt == 0:
         minoList[0] = [i for i in minoList[1]]
         random.shuffle(minoList[1])
-    for n in range(4):
+    for n in range(5):
         for x in range(5):
             for y in range(5):
                 nexts[n][x][y] = 15
@@ -25,7 +28,7 @@ def selectMino(minoList):
             dx = minos[minoList[list_n][nxt]][1][i][0]
             dy = minos[minoList[list_n][nxt]][1][i][1]
             nexts[n][2 + dx][2 + dy] = minoList[list_n][nxt]
-    for j in range(4):
+    for j in range(5):
         for k in range(5):
             nexts[j][k].reverse()
     mino_choice = minoList[0][cnt]
@@ -55,15 +58,15 @@ def loadBoard():
                 img_x = 0
                 if i == 15:
                     img_y = 0
-                    img_x = size
+                    img_x = size2
                 elif i > 7:
                     img_y -= 7
-                    img_x = size
+                    img_x = size2
                 if board_hold[x][y] == i:
-                    screen.blit(img, (x * size + 10, y * size + 10),
-                                (img_x, img_y * size, size, size))
+                    screen.blit(img2, (x * size2 + 45, y * size2 + 10),
+                                (img_x, img_y * size2, size2, size2))
 
-    for n in range(4):
+    for n in range(5):
         for x in range(5):
             for y in range(5):
                 for i in range(16):
@@ -71,13 +74,21 @@ def loadBoard():
                     img_x = 0
                     if i == 15:
                         img_y = 0
-                        img_x = size
+                        img_x = size2
                     elif i > 7:
                         img_y -= 7
-                        img_x = size
+                        img_x = size2
                     if nexts[n][x][y] == i:
-                        screen.blit(img, ((x + 15) * size + 10, n * 5 * size + y * size + 10),
-                                    (img_x, img_y * size, size, size))
+                        screen.blit(img2, (15 * size + x * size2 + 15, (n * 5 + y) * size2 + 12),
+                                    (img_x, img_y * size2, size2, size2))
+
+    for i in range(20):
+        if attack[i] == 15:
+            screen.blit(img3, (100, i * size3 + 90),
+                                (size3, 0 * size3, size3, size3))
+        else:
+            screen.blit(img3, (100, i * size3 + 90),
+                                (0, 5 * size3, size3, size3))
 
 def putMino(mino, action = False):
     if board[mino[0]][mino[1]] != 0 and board[mino[0]][mino[1]] < 8:
@@ -204,15 +215,14 @@ def deleteLine():
             y -= 1
         y += 1
 
-img = pygame.image.load("img.png")
-size = 24
 board = [[0 for i in range(28)] for i in range(12)]
 for x in range(len(board)):
     for y in range(len(board[x])):
         if x == 0 or x == 11 or y == 0:
             board[x][y] = 1
 board_hold = [[15 for i in range(5)] for i in range(5)]
-nexts = [[[15 for i in range(5)] for i in range(5)] for i in range(4)]
+nexts = [[[15 for i in range(5)] for i in range(5)] for i in range(5)]
+attack = [15 for i in range(20)]
 cnt = 0
 time = 0
 pawer = 0
@@ -244,10 +254,17 @@ mino = [5, 21, 0, 0]                   ## x, y, type, rotate
 mino[2] = selectMino(minoList)
 block = [i for i in mino]
 hold = None
+size = 24
+size2 = 15
+size3 = 20
+img = pygame.image.load("img.png")
+img2 = pygame.transform.scale(img, (size2 * 2, size2 * 8))
+img3 = pygame.transform.scale(img, (size3 * 2, size3 * 8))
 pygame.init()
 clock = pygame.time.Clock()
 screen = pygame.display.set_mode((size * 40 + 40, size * 20 + 100))
 pygame.display.set_caption("Tetris")
+screen.blit(img2, (0,0))
 pygame.display.update()
 
 while not fin:
@@ -256,7 +273,7 @@ while not fin:
         time += 1
         deleteMino(block)
         putMino(mino)
-        if time % 10 == 0:
+        if time % 20 == 0:
             minoDown()
     for event in pygame.event.get():
         if event.type == QUIT:
