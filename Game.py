@@ -4,7 +4,7 @@ from pygame.locals import *
 import cv2
 import random
 
-class game:
+class Game:
     def __init__(self):
         self.board = [[0 for i in range(28)] for i in range(12)]
         for x in range(len(self.board)):
@@ -19,6 +19,3 @@ class game:
         self.canHold = True
         self.btb = False
         
-
-player1 = game(1)
-player2 = game(2)
