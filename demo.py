@@ -225,6 +225,7 @@ def minoDown():
     if not putMino(mino):
         mino[1] += 1
         putMino(mino)
+        fall.play()
         deleteLine()
         if wall > 0: makeWall()
         wall = 0
@@ -267,7 +268,10 @@ def deleteLine():
         if board[i][1] != 0:
             flag = False
             break
-    if flag: pawer = 10
+    if flag:
+        allClear.play()
+        pawer = 10
+    elif chain > 0: line.play()
     if chain > 1:
         if chain < 9: pawer += chain // 2
         elif chain == 10: pawer += 4
@@ -292,6 +296,7 @@ def makeWall():
                 if x == n: board[x][y] = 0
                 else: board[x][y] = 15                        
         y -= 1
+    damage.play()
 
 board = [[0 for i in range(40)] for i in range(12)]
 for x in range(len(board)):
@@ -309,6 +314,7 @@ fin = False
 con = True
 canHold = True
 btb = False
+se = True
 minos = [
     [1, [[0, 0], [0, 0], [0, 0]]],     ## null
     [2, [[0, -1], [0, 1], [0, 2]]],    ## I mino
@@ -342,10 +348,15 @@ img2 = pygame.transform.scale(img, (size2 * 2, size2 * 8))
 img3 = pygame.transform.scale(img, (size3 * 2, size3 * 8))
 pygame.init()
 clock = pygame.time.Clock()
-screen = pygame.display.set_mode((size * 40 + 40, size * 20 + 100))
+screen = pygame.display.set_mode((size * 40 + 40, size * 20 + 50))
 pygame.display.set_caption("Tetris")
-screen.blit(img2, (0,0))
-pygame.display.update()
+pygame.mixer.music.load("BGM.wav")
+pygame.mixer.music.play(-1)
+clear = pygame.mixer.Sound("clear.wav")
+line = pygame.mixer.Sound("line.wav")
+damage = pygame.mixer.Sound("damage.wav")
+allClear = pygame.mixer.Sound("allClear.wav")
+fall = pygame.mixer.Sound("fall.wav")
 
 while not fin:
     if con:
@@ -357,9 +368,13 @@ while not fin:
     for event in pygame.event.get():
         if event.type == QUIT:
             fin = True
-            con = False
         if event.type == KEYDOWN:
             if(processInput()): time = -1
+    if (not con) and se:
+        pygame.mixer.music.pause()
+        clear.play()
+        se = False
+        
     screen.fill((128, 192, 255))
     superDrop()
     loadBoard()
