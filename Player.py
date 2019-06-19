@@ -4,7 +4,7 @@ from pygame.locals import *
 import cv2
 import random
 
-class Game:
+class Player:
     def __init__(self):
         self.board = [[0 for i in range(28)] for i in range(12)]
         for x in range(len(self.board)):
