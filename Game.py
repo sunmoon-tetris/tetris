@@ -13,8 +13,11 @@ class Game:
         self.player = []
         self.player.append(Player())
         self.player.append(Player())
-        self.monoList = [[i + 1 for i in range(7)] for j in range(2)]
-        for i in range(2): random.shuffle(self.monoList[i])
+        self.minoList = [[i + 1 for i in range(7)] for j in range(2)]
+        for i in range(2):
+            random.shuffle(self.minoList[i])
+            self.tetris[i].setMinoList(self.minoList)
+            self.tetris[i].mino[2] = self.tetris[i].selectMino()
         pygame.init()
         pygame.display.set_caption("Tetris")
         pygame.mixer.music.load("sound_effect/BGM2.wav")
@@ -34,30 +37,65 @@ class Game:
         self.fall = pygame.mixer.Sound("sound_effect/fall.wav")
 
     def main(self):
-        while True:
-            self.clock.tick(30)
+        fin = False
+        while not fin:
+            self.clock.tick(3)
             self.addMonoList()
-            self.contTime(self.getCommand())
+            fin = self.updateTetris()
+            self.putBlock()
             self.drawBoard()
 
     def addMonoList(self):
         n = self.tetris[0].cnt
-        if n < self.tetris[1].cnt: n = self.tetris.cnt
-        if n // 7 > len(self.minoList) - 1:
-            self.minoList.append(random.shuffle([i + 1 for i in range(7)]))
+        if n < self.tetris[1].cnt: n = self.tetris[1].cnt
+        if n // 7 >= len(self.minoList) - 1:
+            temp = [i + 1 for i in range(7)]
+            random.shuffle(temp)
+            self.minoList.append(temp)
+            for i in range(2):
+                self.tetris[i].setMinoList(self.minoList)
 
-    def getCommand(self):
+    def getCommand(self, player, tetris):
         ret = False
+        key = -1
         for event in pygame.event.get():
-            if event.type == QUIT: sys.exit()
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
                     pygame.quit()
                     sys.exit()
+##                elif event.key == K_UP: key = 0
+##                elif event.key == K_DOWN: key = 1
+##                elif event.key == K_LEFT: key = 2
+##                elif event.key == K_RIGHT: key = 3
+##                elif event.key == K_f: key = 4
+##                elif event.key == K_q: key = 5
+        key = player.answer(tetris.getLists, tetris.mino)
+        if key == 1 or key == 5:
+            ret = True
+        tetris.processInput(key)
         return ret
 
-    def updateTetris(self, down = False):
-        
+    def updateTetris(self):
+        fin = False
+        for i in range(1, 3):
+            ret = self.getCommand(self.player[i - 1], self.tetris[i - 1])
+            se = self.tetris[i - 1].countTime(ret, self.tetris[2 - i].pawer)
+            if se == 1: self.fall.play()
+            elif se == 2: self.line.play()
+            elif se == 3: self.allClear.play()
+            elif se == 4: self.damage.play()
+            elif se == 5:
+                self.clear.play()
+                pygame.mixer.music.pause()
+                fin = True
+        return fin
+
+    def putBlock(self):
+        for i in range(2):
+            self.tetris[i].hardDrop()
 
     def drawBoard(self):
         self.screen.fill((128, 192, 255))
@@ -113,11 +151,27 @@ class Game:
                     if lists[n][3][i] > 5: self.screen.blit(self.img3, ((n * 20) * self.size1 + 100 + (n * 20), (19 - i) * self.size3 + 90),
                                                             (0, 6 * self.size3, self.size3, self.size3))
                     else: self.screen.blit(self.img3, ((n * 20) * self.size1 + 100 + (n * 20), (19 - i) * self.size3 + 90),
-                                      (0, 6 * self.size3, self.size3, self.size3))
+                                      (0, 4 * self.size3, self.size3, self.size3))
                 else: self.screen.blit(self.img3, ((n * 20) * self.size1 + 100 + (n * 20), (19 - i) * self.size3 + 90),
                                   (self.size3, 0 * self.size3, self.size3, self.size3))
             lists[n][3].reverse()
         pygame.display.update()
-    
-game = Game()
-game.main()
+
+    def end(self, index):
+        fin = False
+        while not fin:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == KEYDOWN:
+                    if event.key == K_ESCAPE:
+                        pygame.quit()
+                        sys.exit()
+                    elif event.key == K_SPACE and index != 2:
+                        fin = True
+
+for i in range(3):
+    game = Game()
+    game.main()
+    game.end(i)
