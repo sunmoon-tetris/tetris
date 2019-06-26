@@ -8,5 +8,5 @@ class Player:
     def answer(self, lists, mino):
         self.lists = lists
         self.mino = mino
-        self.command = random.randint(0, 5)
+        self.command = random.randint(0, 6)
         return self.command

@@ -113,9 +113,10 @@ class Tetris:
     def processInput(self, key):
         n = [i for i in self.mino]
         if key == 0: n[3] += 1
-        elif key == 2: n[0] -= 1
-        elif key == 3: n[0] += 1
-        elif key == 4 and self.canHold:
+        if key == 1: n[3] -= 1
+        elif key == 3: n[0] -= 1
+        elif key == 4: n[0] += 1
+        elif key == 5 and self.canHold:
             self.canHold = False
             if self.hold == None:
                 self.hold = [5, 21, self.mino[2], 0]
@@ -130,7 +131,7 @@ class Tetris:
                 dy = self.minos[self.hold[2]][1][i][1]
                 self.board_hold[2 + dx][2 + dy] = self.hold[2]
             for j in range(5): self.board_hold[j].reverse()
-        elif key == 5:
+        elif key == 6:
             n = [i for i in self.block]
             n[2] -= 7
         if n[0] != self.mino[0] or n[1] != self.mino[1] or n[2] != self.mino[2] or n[3] != self.mino[3]: 

@@ -18,6 +18,7 @@ class Game:
             random.shuffle(self.minoList[i])
             self.tetris[i].setMinoList(self.minoList)
             self.tetris[i].mino[2] = self.tetris[i].selectMino()
+            self.tetris[i].block[2] = self.tetris[i].mino[2] + 7
         pygame.init()
         pygame.display.set_caption("Tetris")
         pygame.mixer.music.load("sound_effect/BGM2.wav")
@@ -67,13 +68,14 @@ class Game:
                     pygame.quit()
                     sys.exit()
 ##                elif event.key == K_UP: key = 0
-##                elif event.key == K_DOWN: key = 1
-##                elif event.key == K_LEFT: key = 2
-##                elif event.key == K_RIGHT: key = 3
-##                elif event.key == K_f: key = 4
-##                elif event.key == K_q: key = 5
+##                elif event.key == K_r: key = 1
+##                elif event.key == K_DOWN: key = 2
+##                elif event.key == K_LEFT: key = 3
+##                elif event.key == K_RIGHT: key = 4
+##                elif event.key == K_f: key = 5
+##                elif event.key == K_q: key = 6
         key = player.answer(tetris.getLists, tetris.mino)
-        if key == 1 or key == 5:
+        if key == 2 or key == 6:
             ret = True
         tetris.processInput(key)
         return ret
