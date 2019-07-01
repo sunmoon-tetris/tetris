@@ -74,7 +74,7 @@ class Game:
 ##                elif event.key == K_RIGHT: key = 4
 ##                elif event.key == K_f: key = 5
 ##                elif event.key == K_q: key = 6
-        key = player.answer(tetris.getLists, tetris.mino)
+        key = player.answer(tetris.getLists(), tetris.mino)
         if key == 2 or key == 6:
             ret = True
         tetris.processInput(key)
