@@ -1,10 +1,11 @@
-＼＼＼＼	ゲージ数	ＢＴＢ付
-シングル	　　‐　	　　‐　
-ダブル　	　　１　	　　‐　
-トリプル	　　２　	　　‐　
-テトリス	　　４　	　　５　
-パフェ　	　１０　	　　‐　
-＼＼＼＼	　火力(＋加力)　
+﻿공격력
+		ＢＴＢ
+single	　　‐　	　　‐　
+double　	　　１　	　　‐　
+triple	　　２　	　　‐　
+tetris	　　４　	　　５　
+all clear　	　１０　	　　‐　
+
 ０chain     ０
 １chain     ０
 ２chain     １
@@ -20,11 +21,3 @@
 １２chain   ５
 １３chain   ５
 １４chain   ５
-
-I	水色
-O	黄色
-S	黄緑
-Z	赤
-J	青
-L	オレンジ
-T	紫
