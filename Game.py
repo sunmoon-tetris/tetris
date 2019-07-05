@@ -1,6 +1,6 @@
-##  Player class
+##  Game class
 ##
-##  tetris를 부는 프로그램.
+##  Tetris class Player class를 2개식 관리하고 싸워시키는 프로그램.
 ##
 ##  varsion: 2019/07/05
 ##  author: Katsutoshi Eda
