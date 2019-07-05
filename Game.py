@@ -31,20 +31,25 @@ class Game:
         pygame.display.set_caption("Tetris")
         pygame.mixer.music.load("sound_effect/BGM2.wav")
         pygame.mixer.music.play(-1)
+##      1은 board, 2는 nexts, 3은 hodl의 설정
         self.size1 = 24
         self.size2 = 15
         self.size3 = 20
         self.img1 = pygame.image.load("img.png")
         self.img2 = pygame.transform.scale(self.img1, (self.size2 * 2, self.size2 * 8))
         self.img3 = pygame.transform.scale(self.img1, (self.size3 * 2, self.size3 * 8))
+##      game의 tick를 설정하기 위한 변수 선언
         self.clock = pygame.time.Clock()
+##      game screen의 크기 설정 
         self.screen = pygame.display.set_mode((self.size1 * 40 + 40, self.size1 * 20 + 50))
+##      각 sound effect 설정
         self.clear = pygame.mixer.Sound("sound_effect/clear.wav")
         self.line = pygame.mixer.Sound("sound_effect/line.wav")
         self.damage = pygame.mixer.Sound("sound_effect/damage.wav")
         self.allClear = pygame.mixer.Sound("sound_effect/allClear.wav")
         self.fall = pygame.mixer.Sound("sound_effect/fall.wav")
 
+##  main roop
     def main(self):
         fin = False
         while not fin:
@@ -54,6 +59,7 @@ class Game:
             self.putBlock()
             self.drawBoard()
 
+##  Tetris class의 신행도에 따라 mono list를 updata를 한다.
     def addMonoList(self):
         n = self.tetris[0].cnt
         if n < self.tetris[1].cnt: n = self.tetris[1].cnt
@@ -64,6 +70,7 @@ class Game:
             for i in range(2):
                 self.tetris[i].setMinoList(self.minoList)
 
+##  각 Player class에 Tetris에서 정보를 보내고 명령을 받아 Tetris에 보낸다. return값은 boolean(True 일때 mino를 내려시킨다.)
     def getCommand(self, player, tetris):
         ret = False
         key = -1
@@ -88,6 +95,7 @@ class Game:
         tetris.processInput(key)
         return ret
 
+##  각 Tetris class에 명령시키거나 time를 새시키거나 하는 method. return값은 boolean(True일때 game종료)
     def updateTetris(self):
         fin = False
         for i in range(1, 3):
@@ -103,10 +111,12 @@ class Game:
                 fin = True
         return fin
 
+##  각 Tetris class의 hard block를 작성 시키는 method.
     def putBlock(self):
         for i in range(2):
             self.tetris[i].hardDrop()
 
+##  각 Tetris class에서 list를 받아 game screen에 그리는 method.
     def drawBoard(self):
         self.screen.fill((128, 192, 255))
         lists = []
@@ -167,6 +177,7 @@ class Game:
             lists[n][3].reverse()
         pygame.display.update()
 
+##  game 끝난 후 명령을 받는 method.
     def end(self, index):
         fin = False
         while not fin:
@@ -181,6 +192,7 @@ class Game:
                     elif event.key == K_SPACE and index != 2:
                         fin = True
 
+##  game은 3번 실행해서 몇번 이겼는지를 승부로한다.
 for i in range(3):
     game = Game()
     game.main()
