@@ -1,3 +1,10 @@
+##  Player class
+##
+##  tetris를 부는 프로그램.
+##
+##  varsion: 2019/07/05
+##  author: Katsutoshi Eda
+
 from Tetris import *
 from Player import *
 import sys
@@ -13,6 +20,7 @@ class Game:
         self.player = []
         self.player.append(Player())
         self.player.append(Player())
+##      mino는 7개의 종류가 있고 7개의 순서를 random으로 저장하고 list를 만든다.
         self.minoList = [[i + 1 for i in range(7)] for j in range(2)]
         for i in range(2):
             random.shuffle(self.minoList[i])
@@ -40,7 +48,7 @@ class Game:
     def main(self):
         fin = False
         while not fin:
-            self.clock.tick(3)
+            self.clock.tick(30)
             self.addMonoList()
             fin = self.updateTetris()
             self.putBlock()
@@ -67,14 +75,14 @@ class Game:
                 if event.key == K_ESCAPE:
                     pygame.quit()
                     sys.exit()
-##                elif event.key == K_UP: key = 0
-##                elif event.key == K_r: key = 1
-##                elif event.key == K_DOWN: key = 2
-##                elif event.key == K_LEFT: key = 3
-##                elif event.key == K_RIGHT: key = 4
-##                elif event.key == K_f: key = 5
-##                elif event.key == K_q: key = 6
-        key = player.answer(tetris.getLists(), tetris.mino)
+                elif event.key == K_UP: key = 0
+                elif event.key == K_r: key = 1
+                elif event.key == K_DOWN: key = 2
+                elif event.key == K_LEFT: key = 3
+                elif event.key == K_RIGHT: key = 4
+                elif event.key == K_f: key = 5
+                elif event.key == K_q: key = 6
+##        key = player.answer(tetris.getLists(), tetris.mino)
         if key == 2 or key == 6:
             ret = True
         tetris.processInput(key)
