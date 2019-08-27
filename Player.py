@@ -5,7 +5,7 @@
 ##  varsion: 2019/07/05
 ##  author: Katsutoshi Eda
 
-import random
+import numpy as np
 
 class Player:
     def __init__(self):
@@ -13,7 +13,6 @@ class Player:
         self.lists = None
         self.mino = None
 
-    def answer(self, lists, mino):
 ##      Tetris class에서 board, board_hold, nexts, attack list를 받아 알고리즘을 통해 행동을 return한다.
 ##      block의 종류
 ##      1:  I mino
@@ -48,8 +47,8 @@ class Player:
 ##      4:  오른쪽 가기
 ##      5:  hold하기
 ##      6:  hard drop 하기
-        
+    def getAction(self, lists, mino):
         self.lists = lists
         self.mino = mino
-        self.command = random.randint(0, 6)
+        self.command = np.random.randint(0, 7)
         return self.command
