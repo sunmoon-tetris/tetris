@@ -282,7 +282,10 @@ class Tetris:
         self.setAttack(pawer)
         self.pawer = 0
         self.time += 1
-        self.deleteMino(self.block)
+        for i in range(len(self.board)):
+            for j in range(len(self.board[0])):
+                if self.board[i][j] >= 8 and self.board[i][j] <= 14:
+                    self.board[i][j] = 0
         self.putMino(self.mino)
         if self.time % 20 == 0: se = self.minoDown()
         if ret:
